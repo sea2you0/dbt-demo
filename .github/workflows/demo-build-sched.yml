@@ -1,0 +1,36 @@
+name: demo build schedule
+
+on:
+  workflow_dispatch:
+  schedule:
+    # EVERY SUNDAY AT 1:20PM ET
+    - cron: '20 17 * * 0'
+
+env:
+  DBTDEMO_BQ_SA_KEY_CONTENTS: ${{ secrets.DBTDEMO_BQ_SA_KEY }}  
+  DBTDEMO_BQ_SA_KEY: /tmp/bqsa.json
+
+jobs:
+  dbt:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: mkdir -p "$(dirname $DBTDEMO_BQ_SA_KEY)"
+
+      - run: echo "$DBTDEMO_BQ_SA_KEY_CONTENTS" > $DBTDEMO_BQ_SA_KEY
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install dbt
+        run: |
+          pip install dbt-bigquery
+
+      - name: build dbt models
+        run: |
+          dbt build --target prod
