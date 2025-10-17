@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: crm_landing
+    database: dbt-demo-474219
+    schema: crm_landing
+    tables:
+      - name: contacts
+      - name: deals
