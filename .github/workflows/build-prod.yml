@@ -1,10 +1,10 @@
-name: demo build schedule
+name: build -- prod
 
 on:
   workflow_dispatch:
   schedule:
-    # EVERY SUNDAY AT 1:20PM ET
-    - cron: '20 17 * * 0'
+    # EVERY SUNDAY AT 1PM ET
+    - cron: '0 17 * * 0'
 
 env:
   DBTDEMO_BQ_SA_KEY_CONTENTS: ${{ secrets.DBTDEMO_BQ_SA_KEY }}  
